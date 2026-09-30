@@ -1,0 +1,209 @@
+[
+  {
+    "id":1,
+
+    "title":"陌生開發第一次接觸",
+
+    "channel":"電話開發",
+
+    "background":
+    "業務第一次聯絡客戶，客戶沒有認識業務員",
+
+    "goal":
+    "建立信任並取得下一次面談機會",
+
+    "customer_thought":
+    "不知道這個人是不是只是想賣保險",
+
+    "common_objection":[
+      "我沒有需要",
+      "我很忙",
+      "不用了謝謝"
+    ],
+
+    "difficulty":
+    "困難"
+  },
+
+
+  {
+    "id":2,
+
+    "title":"既有保戶保單健檢",
+
+    "channel":"既有客戶服務",
+
+    "background":
+    "客戶多年以前購買保單，但人生階段已改變",
+
+    "goal":
+    "協助客戶重新檢視保障缺口",
+
+    "customer_thought":
+    "我已經買很多保險，應該不用調整",
+
+    "common_objection":[
+      "以前買的應該夠了",
+      "不用再增加保費"
+    ],
+
+    "difficulty":
+    "中等"
+  },
+
+
+  {
+    "id":3,
+
+    "title":"朋友轉介紹",
+
+    "channel":"熟人推薦",
+
+    "background":
+    "朋友介紹認識，但客戶對保險沒有明確需求",
+
+    "goal":
+    "從關係建立轉為需求探索",
+
+    "customer_thought":
+    "礙於朋友面子才願意聽",
+
+    "common_objection":[
+      "我只是聽聽",
+      "先了解看看"
+    ],
+
+    "difficulty":
+    "中等"
+  },
+
+
+  {
+    "id":4,
+
+    "title":"醫療險需求討論",
+
+    "channel":"家庭保障規劃",
+
+    "background":
+    "客戶已有健保與公司團保",
+
+    "goal":
+    "協助客戶理解個人保障與公司保障差異",
+
+    "customer_thought":
+    "我已經有保障，不需要多花錢",
+
+    "common_objection":[
+      "健保不是都有嗎",
+      "公司也有保險"
+    ],
+
+    "difficulty":
+    "中等"
+  },
+
+
+  {
+    "id":5,
+
+    "title":"高保費拒絕處理",
+
+    "channel":"方案說明後",
+
+    "background":
+    "客戶認同保障重要，但認為價格太高",
+
+    "goal":
+    "重新確認需求與預算",
+
+    "customer_thought":
+    "我怕買了造成負擔",
+
+    "common_objection":[
+      "太貴了",
+      "我要回去想想"
+    ],
+
+    "difficulty":
+    "困難"
+  },
+
+
+  {
+    "id":6,
+
+    "title":"投資型保單疑慮",
+
+    "channel":"資產配置",
+
+    "background":
+    "客戶過去投資經驗不佳，對金融商品較敏感",
+
+    "goal":
+    "了解客戶真正需求與風險承受度",
+
+    "customer_thought":
+    "以前有人說很好，結果不是這樣",
+
+    "common_objection":[
+      "保險不是拿來投資",
+      "我自己投資比較好"
+    ],
+
+    "difficulty":
+    "困難"
+  },
+
+
+  {
+    "id":7,
+
+    "title":"家庭責任規劃",
+
+    "channel":"人生階段轉換",
+
+    "background":
+    "客戶結婚、生子，需要重新檢視保障",
+
+    "goal":
+    "讓客戶思考家庭責任",
+
+    "customer_thought":
+    "現在生活壓力已經很大",
+
+    "common_objection":[
+      "現在沒有預算",
+      "等收入增加再說"
+    ],
+
+    "difficulty":
+    "中等"
+  },
+
+
+  {
+    "id":8,
+
+    "title":"退休規劃",
+
+    "channel":"中高齡客戶",
+
+    "background":
+    "客戶開始關注退休後生活",
+
+    "goal":
+    "探索退休目標與風險",
+
+    "customer_thought":
+    "退休還很久，不急",
+
+    "common_objection":[
+      "還早吧",
+      "之後再規劃"
+    ],
+
+    "difficulty":
+    "中等"
+  }
+]

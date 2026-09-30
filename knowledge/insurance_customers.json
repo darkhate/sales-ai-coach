@@ -1,0 +1,212 @@
+[
+  {
+    "name": "陳先生",
+    "age": 35,
+    "gender": "男性",
+    "job": "科技公司工程師",
+    "family": "已婚，有一位幼兒",
+
+    "insurance_type": "醫療險",
+
+    "personality": "理性分析型",
+
+    "difficulty": "中等",
+
+    "insurance_status":
+    "公司有團體醫療保險，自己只有基本保障",
+
+    "pain":
+    "擔心未來醫療費用增加",
+
+    "surface_objection":
+    "公司已經有保險了，應該不用另外買吧",
+
+    "hidden_need":
+    "希望保障家庭，但不確定需要多少",
+
+    "stage":
+    "防備"
+  },
+
+
+  {
+    "name": "林小姐",
+    "age": 28,
+    "gender": "女性",
+    "job": "銀行職員",
+    "family": "單身",
+
+    "insurance_type": "重大疾病險",
+
+    "personality":
+    "猶豫比較型",
+
+    "difficulty":
+    "簡單",
+
+    "insurance_status":
+    "有基本醫療險",
+
+    "pain":
+    "擔心重大疾病造成經濟壓力",
+
+    "surface_objection":
+    "我還年輕，應該不用這麼早規劃",
+
+    "hidden_need":
+    "希望有人協助整理保障缺口",
+
+    "stage":
+    "觀望"
+  },
+
+
+  {
+    "name": "王先生",
+    "age": 52,
+    "gender": "男性",
+    "job": "企業主管",
+    "family":
+    "已婚，子女已成年",
+
+    "insurance_type":
+    "壽險",
+
+    "personality":
+    "高要求懷疑型",
+
+    "difficulty":
+    "困難",
+
+    "insurance_status":
+    "已有多張保單",
+
+    "pain":
+    "希望確認保障是否符合目前人生階段",
+
+    "surface_objection":
+    "我以前買很多保險了，不需要再買",
+
+    "hidden_need":
+    "想確認家庭責任與資產安排",
+
+    "stage":
+    "抗拒"
+  },
+
+
+  {
+    "name": "張小姐",
+    "age": 42,
+    "gender": "女性",
+    "job":
+    "自由工作者",
+
+    "family":
+    "已婚，有兩個小孩",
+
+    "insurance_type":
+    "失能險",
+
+    "personality":
+    "務實型",
+
+    "difficulty":
+    "困難",
+
+    "insurance_status":
+    "有醫療險，但沒有收入保障",
+
+    "pain":
+    "擔心無法工作造成家庭負擔",
+
+    "surface_objection":
+    "這個保費太高了，我覺得不划算",
+
+    "hidden_need":
+    "希望家庭生活不要因意外中斷",
+
+    "stage":
+    "防備"
+  },
+
+
+  {
+    "name": "李先生",
+    "age": 45,
+    "gender":
+    "男性",
+
+    "job":
+    "中小企業老闆",
+
+    "family":
+    "已婚",
+
+    "insurance_type":
+    "退休規劃",
+
+    "personality":
+    "投資比較型",
+
+    "difficulty":
+    "困難",
+
+    "insurance_status":
+    "有投資股票與基金",
+
+    "pain":
+    "希望退休後維持生活品質",
+
+    "surface_objection":
+    "我自己投資就好了，為什麼需要保險",
+
+    "hidden_need":
+    "希望降低未來的不確定性",
+
+    "stage":
+    "觀望"
+  },
+
+
+  {
+    "name":
+    "周先生",
+
+    "age":
+    31,
+
+    "gender":
+    "男性",
+
+    "job":
+    "業務主管",
+
+    "family":
+    "準備結婚",
+
+    "insurance_type":
+    "家庭保障規劃",
+
+    "personality":
+    "快速決策型",
+
+    "difficulty":
+    "簡單",
+
+    "insurance_status":
+    "只有學生時期保單",
+
+    "pain":
+    "人生階段改變，需要重新規劃",
+
+    "surface_objection":
+    "等結婚後再說好了",
+
+    "hidden_need":
+    "想提前做好家庭責任準備",
+
+    "stage":
+    "開放"
+  }
+]
