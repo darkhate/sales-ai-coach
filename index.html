@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+AI成交訓練教練
+</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<h1>
+AI 成交訓練教練
+</h1>
+
+
+<div class="box">
+
+<h3>
+選擇訓練情境
+</h3>
+
+
+<select id="customer">
+
+<option value="0">
+健身課程客戶
+</option>
+
+<option value="1">
+企業軟體客戶
+</option>
+
+</select>
+
+
+<button onclick="startTraining()">
+開始訓練
+</button>
+
+
+</div>
+
+
+
+<div id="chat"
+class="box">
+
+</div>
+
+
+
+<div class="box">
+
+<input id="message"
+placeholder="輸入你的成交回覆">
+
+
+<button onclick="sendMessage()">
+送出
+</button>
+
+
+<button onclick="finishTraining()">
+完成訓練
+</button>
+
+
+</div>
+
+
+
+<div id="report"
+class="box">
+
+</div>
+
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+
+
+</body>
+
+</html>
