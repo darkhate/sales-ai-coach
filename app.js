@@ -1,203 +1,393 @@
-let customer={};
-
-let conversation=[];
-
-
-
-async function startTraining(){
+// ===============================
+// AI 成交訓練教練
+// Frontend Controller
+// ===============================
 
 
-let response=
-await fetch(
-"knowledge/customers.json"
-);
+let customer = {};
 
-
-let data=
-await response.json();
-
-
-customer=
-data[
-document
-.getElementById("customer")
-.value
-];
-
-
-conversation=[];
+let conversation = [];
 
 
 
-document
-.getElementById("chat")
-.innerHTML=
+// ===============================
+// 開始訓練
+// ===============================
 
-`
-<h3>
-目前客戶：
-${customer.name}
-</h3>
+async function startTraining() {
 
-<p>
-客戶背景：
-${customer.customer.pain}
-</p>
 
-`;
+    const select =
+        document.getElementById("customer").value;
 
+
+    const response =
+        await fetch(
+            "knowledge/customers.json"
+        );
+
+
+    const customers =
+        await response.json();
+
+
+
+    customer =
+        customers[select];
+
+
+
+    conversation = [];
+
+
+
+    document.getElementById("chat").innerHTML = `
+
+        <h3>
+        開始訓練
+        </h3>
+
+        <p>
+        客戶：
+        ${customer.name}
+        </p>
+
+
+        <p>
+        年齡：
+        ${customer.customer.age}
+        </p>
+
+
+        <p>
+        職業：
+        ${customer.customer.job}
+        </p>
+
+
+        <p>
+        性格：
+        ${customer.customer.personality}
+        </p>
+
+
+        <p>
+        客戶目前階段：
+        ${customer.customer.stage}
+        </p>
+
+
+        <p>
+        潛在問題：
+        ${customer.customer.pain}
+        </p>
+
+
+        <hr>
+
+        <p>
+        請開始與客戶溝通。
+        </p>
+
+    `;
 
 
 }
 
 
+
+// ===============================
+// 發送成交話術
+// ===============================
 
 async function sendMessage(){
 
 
-let msg=
-document
-.getElementById("message")
-.value;
+    const input =
+        document.getElementById("message");
+
+
+    const message =
+        input.value.trim();
 
 
 
-conversation.push({
+    if(!message){
 
-role:"user",
+        alert("請輸入內容");
 
-content:msg
+        return;
 
-});
-
-
-
-showMessage(
-"你",
-msg
-);
+    }
 
 
 
-let response=
-await fetch(
+    // 保存使用者說話
 
-CONFIG.WORKER_URL,
+    conversation.push({
 
-{
+        role:"user",
 
-method:"POST",
+        content:message
 
-headers:{
-
-"Content-Type":
-"application/json"
-
-},
+    });
 
 
-body:JSON.stringify({
 
-mode:"customer",
+    showMessage(
+        "你",
+        message
+    );
 
-message:msg,
 
-customer:
-customer.customer
 
-})
+    input.value="";
+
+
+
+    try{
+
+
+        const response =
+        await fetch(
+
+            CONFIG.WORKER_URL,
+
+            {
+
+            method:"POST",
+
+
+            headers:{
+
+                "Content-Type":
+                "application/json"
+
+            },
+
+
+            body:JSON.stringify({
+
+                mode:"customer",
+
+
+                message:message,
+
+
+                customer:
+                customer.customer
+
+            })
+
+            }
+
+        );
+
+
+
+        const data =
+        await response.json();
+
+
+
+        const aiReply =
+        data.reply ||
+        "AI沒有回覆";
+
+
+
+        conversation.push({
+
+            role:"customer",
+
+            content:aiReply
+
+        });
+
+
+
+        showMessage(
+
+            "AI客戶",
+
+            aiReply
+
+        );
+
+
+
+    }
+
+    catch(error){
+
+
+        showMessage(
+
+            "系統錯誤",
+
+            error.message
+
+        );
+
+
+    }
+
 
 
 }
 
-);
 
 
-
-let data=
-await response.json();
-
-
-
-conversation.push({
-
-role:"customer",
-
-content:data.reply
-
-});
-
-
-
-showMessage(
-"AI客戶",
-data.reply
-);
-
-
-}
-
-
+// ===============================
+// 完成訓練，進入教練分析
+// ===============================
 
 async function finishTraining(){
 
 
-let response=
-await fetch(
+    if(conversation.length===0){
 
-CONFIG.WORKER_URL,
+        alert(
+        "請先進行對話"
+        );
 
-{
+        return;
 
-method:"POST",
-
-headers:{
-
-"Content-Type":
-"application/json"
-
-},
+    }
 
 
-body:JSON.stringify({
 
-mode:"coach",
+    try{
 
-conversation:
 
-conversation,
+        const response =
+        await fetch(
 
-customer:
+            CONFIG.WORKER_URL,
 
-customer.customer
+            {
 
-})
+
+            method:"POST",
+
+
+            headers:{
+
+                "Content-Type":
+                "application/json"
+
+            },
+
+
+            body:JSON.stringify({
+
+                mode:"coach",
+
+
+                conversation:
+                conversation,
+
+
+                customer:
+                customer.customer
+
+            })
+
+
+            }
+
+        );
+
+
+
+        const data =
+        await response.json();
+
+
+
+        document
+        .getElementById("report")
+        .innerHTML = `
+
+
+        <h2>
+        成交教練分析
+        </h2>
+
+
+        <div>
+
+        ${formatReport(data.reply)}
+
+        </div>
+
+
+        `;
+
+
+
+    }
+
+    catch(error){
+
+
+        document
+        .getElementById("report")
+        .innerHTML =
+
+        `
+        分析失敗：
+
+        ${error.message}
+
+        `;
+
+
+    }
+
 
 }
 
-);
 
 
 
-let data=
-await response.json();
+// ===============================
+// 顯示聊天訊息
+// ===============================
+
+function showMessage(
+    name,
+    text
+){
+
+
+    const chat =
+    document.getElementById("chat");
 
 
 
-document
-.getElementById("report")
-.innerHTML=
+    chat.innerHTML += `
 
-`
 
-<h2>
-成交分析報告
-</h2>
+    <p>
 
-${data.reply}
+    <b>
+    ${name}
+    </b>
 
-`;
+    :
 
+    ${text}
+
+    </p>
+
+
+    `;
+
+
+
+    chat.scrollTop =
+    chat.scrollHeight;
 
 
 }
@@ -205,25 +395,27 @@ ${data.reply}
 
 
 
-function showMessage(name,text){
+// ===============================
+// AI報告格式化
+// ===============================
+
+function formatReport(text){
 
 
-document
-.getElementById("chat")
-.innerHTML+=
+    if(!text){
 
-`
+        return "沒有分析結果";
 
-<p>
+    }
 
-<b>${name}</b>
 
-：
 
-${text}
+    return text
 
-</p>
+    .replace(
+        /\n/g,
+        "<br>"
+    );
 
-`;
 
 }
