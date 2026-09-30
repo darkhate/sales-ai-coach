@@ -4,7 +4,7 @@ const CONFIG={
 
 WORKER_URL:
 
-"https://你的worker名稱.workers.dev"
+"https://rapid-voice-2ec9.baquerodwornik432.workers.dev"
 
 
 };
