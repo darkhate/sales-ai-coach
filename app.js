@@ -1,120 +1,178 @@
-// ===============================
-// AI 成交訓練教練
+// =====================================
+// AI 保險成交訓練教練
 // Frontend Controller
-// ===============================
+// =====================================
 
 
-let customer = {};
+let customer = null;
 
 let conversation = [];
 
 
 
-// ===============================
-// 開始訓練
-// ===============================
 
-async function startTraining() {
+// =====================================
+// 開始隨機訓練
+// =====================================
 
-
-    const select =
-        document.getElementById("customer").value;
+async function startTraining(){
 
 
-    const response =
-        await fetch(
-            "knowledge/customers.json"
-        );
+    // 取得客戶資料
+
+    const customerResponse =
+    await fetch(
+        "knowledge/insurance_customers.json"
+    );
 
 
     const customers =
-        await response.json();
+    await customerResponse.json();
 
 
 
-    customer =
-        customers[select];
+    // 取得情境資料
+
+    const scenarioResponse =
+    await fetch(
+        "knowledge/insurance_scenarios.json"
+    );
+
+
+    const scenarios =
+    await scenarioResponse.json();
 
 
 
-    conversation = [];
+    // 隨機抽客戶
+
+    const randomCustomer =
+    Math.floor(
+        Math.random() *
+        customers.length
+    );
 
 
 
-    document.getElementById("chat").innerHTML = `
+    // 隨機抽情境
 
-        <h3>
-        開始訓練
-        </h3>
-
-        <p>
-        客戶：
-        ${customer.name}
-        </p>
+    const randomScenario =
+    Math.floor(
+        Math.random() *
+        scenarios.length
+    );
 
 
-        <p>
-        年齡：
-        ${customer.customer.age}
-        </p>
+
+    customer = {
 
 
-        <p>
-        職業：
-        ${customer.customer.job}
-        </p>
+        ...customers[randomCustomer],
 
 
-        <p>
-        性格：
-        ${customer.customer.personality}
-        </p>
+        scenario:
+        scenarios[randomScenario]
+
+    };
 
 
-        <p>
-        客戶目前階段：
-        ${customer.customer.stage}
-        </p>
+
+    conversation=[];
 
 
-        <p>
-        潛在問題：
-        ${customer.customer.pain}
-        </p>
+
+    // 注意：
+    // 不顯示 hidden_need
+    // 不顯示真正拒絕原因
+    // 避免作弊
 
 
-        <hr>
+    document
+    .getElementById("customer")
+    .innerHTML = `
 
-        <p>
-        請開始與客戶溝通。
-        </p>
+
+    <h3>
+    保險客戶訓練開始
+    </h3>
+
+
+    <p>
+    客戶姓名：
+    ${customer.name}
+    </p>
+
+
+    <p>
+    年齡：
+    ${customer.age}
+    </p>
+
+
+    <p>
+    職業：
+    ${customer.job}
+    </p>
+
+
+    <p>
+    客戶特性：
+    ${customer.personality}
+    </p>
+
+
+    <p>
+    本次情境：
+    ${customer.scenario.title}
+    </p>
+
+
+    <hr>
+
+
+    請開始與客戶進行需求訪談。
+
 
     `;
+
+
+
+    document
+    .getElementById("chat")
+    .innerHTML="";
 
 
 }
 
 
 
-// ===============================
-// 發送成交話術
-// ===============================
+
+
+
+// =====================================
+// 發送話術
+// =====================================
+
 
 async function sendMessage(){
 
 
+
     const input =
-        document.getElementById("message");
+    document.getElementById("message");
+
 
 
     const message =
-        input.value.trim();
+    input.value.trim();
 
 
 
     if(!message){
 
-        alert("請輸入內容");
+        alert(
+        "請輸入你的話術"
+        );
 
         return;
 
@@ -122,11 +180,16 @@ async function sendMessage(){
 
 
 
-    // 保存使用者說話
+    input.value="";
+
+
+
+    // 保存業務員說話
+
 
     conversation.push({
 
-        role:"user",
+        role:"sales",
 
         content:message
 
@@ -141,9 +204,6 @@ async function sendMessage(){
 
 
 
-    input.value="";
-
-
 
     try{
 
@@ -152,6 +212,7 @@ async function sendMessage(){
         await fetch(
 
             CONFIG.WORKER_URL,
+
 
             {
 
@@ -168,14 +229,50 @@ async function sendMessage(){
 
             body:JSON.stringify({
 
+
                 mode:"customer",
 
 
-                message:message,
+
+                message:
+
+
+
+                message,
+
 
 
                 customer:
-                customer.customer
+
+
+
+                {
+
+                name:
+                customer.name,
+
+
+                age:
+                customer.age,
+
+
+                job:
+                customer.job,
+
+
+                personality:
+                customer.personality,
+
+
+                pain:
+                customer.pain,
+
+
+                scenario:
+                customer.scenario
+
+                }
+
 
             })
 
@@ -185,14 +282,10 @@ async function sendMessage(){
 
 
 
+
         const data =
         await response.json();
 
-
-
-        const aiReply =
-        data.reply ||
-        "AI沒有回覆";
 
 
 
@@ -200,9 +293,10 @@ async function sendMessage(){
 
             role:"customer",
 
-            content:aiReply
+            content:data.reply
 
         });
+
 
 
 
@@ -210,7 +304,7 @@ async function sendMessage(){
 
             "AI客戶",
 
-            aiReply
+            data.reply
 
         );
 
@@ -218,7 +312,9 @@ async function sendMessage(){
 
     }
 
+
     catch(error){
+
 
 
         showMessage(
@@ -230,6 +326,7 @@ async function sendMessage(){
         );
 
 
+
     }
 
 
@@ -238,17 +335,24 @@ async function sendMessage(){
 
 
 
-// ===============================
-// 完成訓練，進入教練分析
-// ===============================
+
+
+
+// =====================================
+// 成交分析
+// =====================================
+
 
 async function finishTraining(){
 
 
-    if(conversation.length===0){
+
+    if(
+    conversation.length===0
+    ){
 
         alert(
-        "請先進行對話"
+        "請先完成一段對話"
         );
 
         return;
@@ -257,93 +361,76 @@ async function finishTraining(){
 
 
 
-    try{
+
+    const response =
+    await fetch(
+
+        CONFIG.WORKER_URL,
 
 
-        const response =
-        await fetch(
+        {
 
-            CONFIG.WORKER_URL,
-
-            {
+        method:"POST",
 
 
-            method:"POST",
+        headers:{
+
+        "Content-Type":
+        "application/json"
+
+        },
 
 
-            headers:{
-
-                "Content-Type":
-                "application/json"
-
-            },
+        body:JSON.stringify({
 
 
-            body:JSON.stringify({
-
-                mode:"coach",
-
-
-                conversation:
-                conversation,
-
-
-                customer:
-                customer.customer
-
-            })
-
-
-            }
-
-        );
+            mode:"coach",
 
 
 
-        const data =
-        await response.json();
+            conversation:
+            conversation,
 
 
 
-        document
-        .getElementById("report")
-        .innerHTML = `
+            customer:
+            customer
 
 
-        <h2>
-        成交教練分析
-        </h2>
+        })
 
 
-        <div>
+        }
 
-        ${formatReport(data.reply)}
-
-        </div>
-
-
-        `;
+    );
 
 
 
-    }
-
-    catch(error){
-
-
-        document
-        .getElementById("report")
-        .innerHTML =
-
-        `
-        分析失敗：
-
-        ${error.message}
-
-        `;
+    const data =
+    await response.json();
 
 
-    }
+
+
+    document
+    .getElementById("report")
+    .innerHTML =
+
+    `
+
+    <h2>
+    AI成交教練分析
+    </h2>
+
+
+    <div>
+
+    ${formatText(data.reply)}
+
+    </div>
+
+    `;
+
 
 
 }
@@ -351,23 +438,26 @@ async function finishTraining(){
 
 
 
-// ===============================
-// 顯示聊天訊息
-// ===============================
+
+
+// =====================================
+// 顯示聊天
+// =====================================
+
 
 function showMessage(
-    name,
-    text
+name,
+message
 ){
 
 
-    const chat =
-    document.getElementById("chat");
+
+    document
+    .getElementById("chat")
+    .innerHTML +=
 
 
-
-    chat.innerHTML += `
-
+    `
 
     <p>
 
@@ -377,7 +467,7 @@ function showMessage(
 
     :
 
-    ${text}
+    ${message}
 
     </p>
 
@@ -386,33 +476,25 @@ function showMessage(
 
 
 
-    chat.scrollTop =
-    chat.scrollHeight;
-
-
 }
 
 
 
 
-// ===============================
-// AI報告格式化
-// ===============================
 
-function formatReport(text){
+
+
+function formatText(text){
 
 
     if(!text){
 
-        return "沒有分析結果";
+        return "無分析結果";
 
     }
 
 
-
-    return text
-
-    .replace(
+    return text.replace(
         /\n/g,
         "<br>"
     );
